@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Textile Map of Sindh</title>
+    <style>
+        body {
+            background-color: #f4e4bc; /* Warm paper/cloth color */
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* The Map Container */
+        #sindh-map {
+            width: 600px;
+            height: auto;
+            filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.3)); /* 3D shadow effect */
+        }
+
+        /* The District Paths */
+        .district {
+            stroke: #fff; /* White stitching effect */
+            stroke-width: 2px;
+            stroke-dasharray: 4 2; /* Makes the border look like stitching */
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        /* Hover Effect */
+        .district:hover {
+            stroke: #ffcc00; /* Gold thread on hover */
+            stroke-width: 4px;
+            filter: brightness(1.2); /* Light up the fabric */
+            transform: scale(1.01); /* Slight lift */
+        }
+        
+        .tooltip {
+            position: absolute;
+            background: white;
+            padding: 10px;
+            border: 1px solid black;
+            display: none;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="tooltip" class="tooltip">Region Name</div>
+
+    <svg id="sindh-map" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        
+        <defs>
+            <pattern id="ajrak-blue" patternUnits="userSpaceOnUse" width="100" height="100">
+                <rect width="100" height="100" fill="#1a237e"/>
+                <circle cx="50" cy="50" r="20" fill="#b71c1c"/> <circle cx="50" cy="50" r="10" fill="white"/>
+            </pattern>
+
+            <pattern id="ralli-yellow" patternUnits="userSpaceOnUse" width="60" height="60">
+                <rect width="60" height="60" fill="#fbc02d"/>
+                <rect x="0" y="0" width="30" height="30" fill="#e65100"/>
+                <rect x="30" y="30" width="30" height="30" fill="#e65100"/>
+            </pattern>
+        </defs>
+
+        <path class="district" d="M 100 100 L 300 100 L 250 300 L 50 250 Z" 
+              fill="url(#ajrak-blue)" 
+              data-name="Hyderabad: The City of Perfume" />
+
+        <path class="district" d="M 300 100 L 450 150 L 400 350 L 250 300 Z" 
+              fill="url(#ralli-yellow)" 
+              data-name="Tharparkar: The Desert Colors" />
+
+    </svg>
+
+    <script>
+        // Simple JS for Interactivity
+        const districts = document.querySelectorAll('.district');
+        const tooltip = document.getElementById('tooltip');
+
+        districts.forEach(district => {
+            district.addEventListener('mousemove', (e) => {
+                tooltip.style.display = 'block';
+                tooltip.style.left = e.pageX + 10 + 'px';
+                tooltip.style.top = e.pageY + 10 + 'px';
+                tooltip.innerText = district.getAttribute('data-name');
+            });
+
+            district.addEventListener('mouseleave', () => {
+                tooltip.style.display = 'none';
+            });
+            
+            district.addEventListener('click', () => {
+                alert("You clicked on " + district.getAttribute('data-name') + ". Here we would load the Python content!");
+            });
+        });
+    </script>
+</body>
+</html>
